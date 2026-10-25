@@ -1,5 +1,7 @@
 # NBA Game Analysis using Kalshi Prediction Market & NBA API Data (Milestone 2)
 
+**Team Members:** Brad Hofmeister, Chris Halvonik, Ryan McCurry
+
 ## Overview
 
 This project tests whether traditional NBA statistics add predictive value beyond Kalshi prediction-market prices, and whether that changes as a game progresses. It combines team box scores from the NBA stats API with Kalshi market prices for every 2025–26 regular-season game at four checkpoints: pre-game and the end of quarters 1, 2, and 3.
