@@ -9,6 +9,8 @@ This project tests whether traditional NBA statistics add predictive value beyon
 - **Supervised learning:** compares NBA-only, Kalshi-only, and combined feature sets across logistic regression, random forest, and k-nearest neighbors, evaluated against the raw Kalshi price with time-series cross-validation, a held-out test set, and paired bootstrap significance tests.
 - **Unsupervised learning:** clusters games and markets, then compares Kalshi's accuracy and calibration across clusters.
 
+The full write-up is in the final report: [milestone_2_report.pdf](milestone_2_report.pdf).
+
 **Team:** Brad Hofmeister, Chris Halvonik, Ryan McCurry
 
 ## Repository Structure
@@ -20,6 +22,7 @@ Milestone2/
 │   └── processed/         # Modeling tables produced by notebook 03
 ├── notebooks/             # Run in numbered order (see below)
 ├── visualizations/        # Figures used in the report
+├── milestone_2_report.pdf # Final written report
 ├── requirements.txt       # Python dependencies (pinned versions)
 └── .gitignore
 ```
