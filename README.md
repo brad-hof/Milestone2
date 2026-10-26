@@ -1,49 +1,81 @@
-# Milestone2
-NBA Game Analysis using Kalshi Prediction Market & NBA API Data
+# NBA Game Analysis using Kalshi Prediction Market & NBA API Data (Milestone 2)
 
-**Overview**
+**Team Members:** Brad Hofmeister, Chris Halvonik, Ryan McCurry
 
-This project explores NBA game data and prediction-market information to investigate patterns, relationships, and potential insights related to NBA game outcomes.
+## Overview
 
-The project combines data from Kalshi prediction markets and the NBA API, using data analysis, visualization, and machine learning techniques to examine the relationship between market expectations and basketball performance.
+This project tests whether traditional NBA statistics add predictive value beyond Kalshi prediction-market prices, and whether that changes as a game progresses. It combines team box scores from the NBA stats API with Kalshi market prices for every 2025–26 regular-season game at four checkpoints: pre-game and the end of quarters 1, 2, and 3.
 
-**Project Objectives**
+- **Supervised learning:** compares NBA-only, Kalshi-only, and combined feature sets across logistic regression, random forest, and k-nearest neighbors, evaluated against the raw Kalshi price with time-series cross-validation, a held-out test set, and paired bootstrap significance tests.
+- **Unsupervised learning:** clusters games and markets, then compares Kalshi's accuracy and calibration across clusters.
 
-Collect and explore NBA game and prediction-market data.
-Clean, transform, and prepare data for analysis.
-Apply exploratory data analysis and data visualization to identify patterns.
-Use unsupervised learning techniques to explore groupings and structure in the data.
-Investigate relationships between prediction-market information and NBA game outcomes.
+**Team:** Brad Hofmeister, Chris Halvonik, Ryan McCurry
 
-**Getting Started**
+## Repository Structure
 
-1. Clone the Repository
-Open a terminal and run:
+```
+Milestone2/
+├── data/
+│   ├── raw/               # CSVs produced by notebooks 01 and 02
+│   └── processed/         # Modeling tables produced by notebook 03
+├── notebooks/             # Run in numbered order (see below)
+├── visualizations/        # Figures used in the report
+├── requirements.txt       # Python dependencies (pinned versions)
+└── .gitignore
+```
+
+## Notebooks
+
+The notebooks are numbered in the order they run. Each one reads the previous step's output from `data/`.
+
+| Notebook | What it does | Reads | Writes |
+|---|---|---|---|
+| `01_nba_stats_data.ipynb` | Pulls full-game, rolling-average, and end-of-quarter team box scores from the NBA stats API | NBA stats API | `data/raw/` |
+| `02_kalshi_data.ipynb` | Pulls quarter start times and Kalshi market prices at each checkpoint | `data/raw/`, NBA stats API, Kalshi API | `data/raw/` |
+| `03_data_prep.ipynb` | Checks the raw data, builds home-minus-away features, assigns a chronological train/test split, and exports one table per checkpoint | `data/raw/` | `data/processed/`, figures 01–03 |
+| `04_supervised_section.ipynb` | Trains, tunes, and evaluates the supervised models, with significance tests, ablation, sensitivity, and failure analysis | `data/processed/` | figures 04–06 |
+| `05_unsupervised_section.ipynb` | Clusters games and compares Kalshi's performance across clusters | `data/processed/` (from GitHub) | figures 07–13 |
+
+**You don't need to run notebooks 01 and 02.** The raw data they produce is already in `data/raw/`, and re-collecting it makes thousands of API requests and takes several hours. To reproduce the analysis, start at notebook 03.
+
+## Getting Started
+
+Tested with Python 3.9.
+
+**1. Clone the repository**
+
+```bash
 git clone https://github.com/brad-hof/Milestone2.git
 cd Milestone2
+```
 
-2. Create a Virtual Environment
-Create an isolated Python environment:
+**2. Create and activate a virtual environment**
+
+```bash
 python -m venv .venv
-
-3. Activate the environment.
-Windows:
-.venv\Scripts\activate
+```
 
 macOS/Linux:
+
+```bash
 source .venv/bin/activate
+```
 
-4. Install Dependencies
-Upgrade pip and install the required packages:
+Windows:
 
+```bash
+.venv\Scripts\activate
+```
+
+**3. Install dependencies**
+
+```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+```
 
-**Directory Description**
+Each notebook also has an install cell at the top (`%pip install -q -r ../requirements.txt`), so this step is optional if you run them in Jupyter. Restart the kernel after the first install.
 
-Notebooks/ — Contains the Jupyter notebooks used for data preparation, Kalshi prediction-market data collection, NBA statistics collection, supervised learning, and unsupervised learning.
-data/processed/ — Contains the processed CSV datasets used for analysis, including NBA box scores, Kalshi market data, game-period data, and rolling-average features.
-visualizations/ — Contains figures generated during data preparation, model evaluation, and clustering analysis.
-requirements.txt — Lists the Python dependencies required to run the project.
-.gitignore — Specifies files and directories Git should ignore.
+**4. Run the notebooks**
 
+Open the notebooks in Jupyter (`jupyter notebook`) or VS Code, select the `.venv` kernel, and run them in order starting from `03_data_prep.ipynb`. The notebooks use paths relative to the `notebooks/` folder (for example `../data/processed`), so open them from there rather than moving them.
